@@ -12,28 +12,50 @@ from supervisor import ticks_ms
 # Initialize Keybaord
 
 
+#pinout:
+# GP16 -> play / stop button
+# GP17 -> shuffle button
+# GP18 -> forward
+# GP19 -> backward
+# GP20, GP21 -> encoder
 
-    
-keyboard = ConsumerControl(usb_hid.devices)
 
-button = DigitalInOut(board.GP16)
-button.direction = Direction.INPUT
-button.pull = Pull.UP
+#play/stop button
+playStopButton = DigitalInOut(board.GP16)
+playStopButton.direction = Direction.INPUT
+playStopButton.pull = Pull.UP
 
+#shuffleButton
+shuffleButton = DigitalInOut(board.GP17)
+shuffleButton.direction = Direction.INPUT
+shuffleButton.pull = Pull.UP
+
+#forwardButton
+forwardButton = DigitalInOut(board.GP18)
+forwardButton.direction = Direction.INPUT
+forwardButton.pull = Pull.UP
+
+#backwardButton
+backwardButton = DigitalInOut(board.GP19)
+backwardButton.direction = Direction.INPUT
+backwardButton.pull = Pull.UP
+
+#encoder pin A
 rotPinA = DigitalInOut(board.GP21)
 rotPinA.direction = Direction.INPUT
 rotPinA.pull = Pull.UP
 
+#encoder pin B
 rotPinB = DigitalInOut(board.GP20)
 rotPinB.direction = Direction.INPUT
 rotPinB.pull = Pull.UP
 
 
+
+
 last = True
-
 preval = True
-
-lastTime = ticks_ms()
+keyboard = ConsumerControl(usb_hid.devices)
 
 
 
@@ -46,12 +68,11 @@ while True:
                 keyboard.send(ConsumerControlCode.VOLUME_INCREMENT)
         preval = rotPinA.value
     
-    if last and not button.value:
-        if ticks_ms() - lastTime > 200:
-            keyboard.send(ConsumerControlCode.PLAY_PAUSE)
-            print("BTN RELEASED")
-            lastTime = ticks_ms()
-    
+    if last and not playStopButton.value:
+        keyboard.send(ConsumerControlCode.PLAY_PAUSE)
+        print("BTN RELEASED")
+        lastTime = ticks_ms()
+    last = playStopButton.value
    # time.sleep(0.05)
    
 
