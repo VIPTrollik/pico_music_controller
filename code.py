@@ -41,12 +41,12 @@ backwardButton.direction = Direction.INPUT
 backwardButton.pull = Pull.UP
 
 #encoder pin A
-rotPinA = DigitalInOut(board.GP21)
+rotPinA = DigitalInOut(board.GP20)
 rotPinA.direction = Direction.INPUT
 rotPinA.pull = Pull.UP
 
 #encoder pin B
-rotPinB = DigitalInOut(board.GP20)
+rotPinB = DigitalInOut(board.GP21)
 rotPinB.direction = Direction.INPUT
 rotPinB.pull = Pull.UP
 
@@ -57,6 +57,10 @@ last = True
 preval = True
 keyboard = ConsumerControl(usb_hid.devices)
 
+playStopButtonLast = True
+shuffleButtonLast = True
+forwardButtonLast = True
+backwardButtonLast = True
 
 
 while True:
@@ -67,12 +71,34 @@ while True:
             else:
                 keyboard.send(ConsumerControlCode.VOLUME_INCREMENT)
         preval = rotPinA.value
-    
-    if last and not playStopButton.value:
+        
+    #play/stop
+    playStopButtonNew = playStopButton.value
+    if playStopButtonLast and not playStopButtonNew:
         keyboard.send(ConsumerControlCode.PLAY_PAUSE)
-        print("BTN RELEASED")
         lastTime = ticks_ms()
-    last = playStopButton.value
+    playStopButtonLast = playStopButtonNew
+    #shuffle
+    shuffleButtonNew = shuffleButton.value
+    if shuffleButtonLast and not shuffleButtonNew:
+        keyboard.send(ConsumerControlCode.MUTE)
+        lastTime = ticks_ms()
+    shuffleButtonLast = shuffleButtonNew
+    #forward
+    forwardButtonNew = forwardButton.value
+    if forwardButtonLast and not forwardButtonNew:
+        keyboard.send(ConsumerControlCode.SCAN_NEXT_TRACK)
+        lastTime = ticks_ms()
+    forwardButtonLast = forwardButtonNew
+    #backward
+    backwardButtonNew = backwardButton.value
+    if backwardButtonLast and not backwardButtonNew:
+        keyboard.send(ConsumerControlCode.SCAN_PREVIOUS_TRACK)
+        lastTime = ticks_ms()
+    backwardButtonLast = backwardButtonNew
+    
+   
+    
    # time.sleep(0.05)
    
 
