@@ -21,32 +21,32 @@ from supervisor import ticks_ms
 
 
 #play/stop button
-playStopButton = DigitalInOut(board.GP16)
+playStopButton = DigitalInOut(board.GP12)
 playStopButton.direction = Direction.INPUT
 playStopButton.pull = Pull.UP
 
-#shuffleButton
-shuffleButton = DigitalInOut(board.GP17)
-shuffleButton.direction = Direction.INPUT
-shuffleButton.pull = Pull.UP
+# #shuffleButton
+# shuffleButton = DigitalInOut(board.GP17)
+# shuffleButton.direction = Direction.INPUT
+# shuffleButton.pull = Pull.UP
 
 #forwardButton
-forwardButton = DigitalInOut(board.GP18)
+forwardButton = DigitalInOut(board.GP13)
 forwardButton.direction = Direction.INPUT
 forwardButton.pull = Pull.UP
 
 #backwardButton
-backwardButton = DigitalInOut(board.GP19)
+backwardButton = DigitalInOut(board.GP11)
 backwardButton.direction = Direction.INPUT
 backwardButton.pull = Pull.UP
 
 #encoder pin A
-rotPinA = DigitalInOut(board.GP20)
+rotPinA = DigitalInOut(board.GP15)
 rotPinA.direction = Direction.INPUT
 rotPinA.pull = Pull.UP
 
 #encoder pin B
-rotPinB = DigitalInOut(board.GP21)
+rotPinB = DigitalInOut(board.GP14)
 rotPinB.direction = Direction.INPUT
 rotPinB.pull = Pull.UP
 
@@ -79,11 +79,11 @@ while True:
         lastTime = ticks_ms()
     playStopButtonLast = playStopButtonNew
     #shuffle
-    shuffleButtonNew = shuffleButton.value
-    if shuffleButtonLast and not shuffleButtonNew:
-        keyboard.send(ConsumerControlCode.MUTE)
-        lastTime = ticks_ms()
-    shuffleButtonLast = shuffleButtonNew
+    # shuffleButtonNew = shuffleButton.value
+    # if shuffleButtonLast and not shuffleButtonNew:
+    #     keyboard.send(ConsumerControlCode.MUTE)
+    #     lastTime = ticks_ms()
+    # shuffleButtonLast = shuffleButtonNew
     #forward
     forwardButtonNew = forwardButton.value
     if forwardButtonLast and not forwardButtonNew:
